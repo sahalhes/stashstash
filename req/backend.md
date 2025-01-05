@@ -123,7 +123,7 @@ VALUES ('shared-stashes', 'shared-stashes', false);
 -- Create a public bucket for public assets
 INSERT INTO storage.buckets (id, name, public)
 VALUES ('public-assets', 'public-assets', true);
-
+```
 # Development Guidelines
 
 ### 1. Database Management
