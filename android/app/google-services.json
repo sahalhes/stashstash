@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "771129806808",
+    "project_id": "stashstash-99c0f",
+    "storage_bucket": "stashstash-99c0f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771129806808:android:d5f0068f400c6aebe3ecad",
+        "android_client_info": {
+          "package_name": "com.example.stashstash"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2mCcyIIRpS1NZnemw73m_YiouL68Ye_g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

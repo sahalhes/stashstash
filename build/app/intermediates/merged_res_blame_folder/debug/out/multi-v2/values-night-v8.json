@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.statefulclickcounter.app-mergeDebugResources-24:/values-night-v8/values-night-v8.xml",
+            "outputFile": "com.example.statefulclickcounter.app-mergeDebugResources-29:/values-night-v8/values-night-v8.xml",
             "map": [
                 {
-                    "source": "D:\\Stateful-Click-Counter\\android\\app\\src\\main\\res\\values-night\\styles.xml",
+                    "source": "E:\\Coding\\Projects\\stashstash\\android\\app\\src\\main\\res\\values-night\\styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",

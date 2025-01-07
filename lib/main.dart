@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
-import 'ui/screens/home_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:stashstash/ui/screens/auth/login_screen.dart';
+import 'package:stashstash/firebase_options.dart';
+import 'package:provider/provider.dart';
+import 'package:stashstash/services/auth_service.dart';
+import 'package:stashstash/ui/screens/home_screen.dart';
 
-void main() {
-  runApp(const StashStashApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AuthService(),
+      child: const StashStashApp(),
+    ),
+  );
 }
 
 class StashStashApp extends StatelessWidget {
@@ -28,7 +42,15 @@ class StashStashApp extends StatelessWidget {
         useMaterial3: true,
         scaffoldBackgroundColor: Colors.black,
       ),
-      home: const HomeScreen(),
+      home: Consumer<AuthService>(
+        builder: (context, authService, child) {
+          if (authService.currentUser != null) {
+            return const HomeScreen();
+          } else {
+            return const LoginScreen();
+          }
+        },
+      ),
     );
   }
 }
