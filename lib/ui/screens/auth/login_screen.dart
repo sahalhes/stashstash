@@ -1,81 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stashstash/services/auth_service.dart';
+import 'package:stashstash/ui/components/loading_indicator.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
-
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      try {
-        await context.read<AuthService>().signIn(
-              _emailController.text.trim(),
-              _passwordController.text.trim(),
-            );
-      } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to sign in: $e')),
-        );
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
+      body: Consumer<AuthService>(
+        builder: (context, authService, child) {
+          return Stack(
             children: [
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  return null;
-                },
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Welcome to StashStash',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    ElevatedButton.icon(
+                      onPressed: () async {
+                        try {
+                          await context.read<AuthService>().signInWithGoogle();
+                        } catch (e) {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Failed to sign in: $e')),
+                            );
+                          }
+                        }
+                      },
+                      icon: Image.network(
+                        'https://www.google.com/favicon.ico',
+                        height: 24,
+                      ),
+                      label: const Text('Sign in with Google'),
+                    ),
+                  ],
+                ),
               ),
-              TextFormField(
-                controller: _passwordController,
-                decoration: const InputDecoration(labelText: 'Password'),
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _submitForm,
-                child: const Text('Login'),
-              ),
+              if (authService.isLoading) const LoadingIndicator(),
             ],
-          ),
-        ),
+          );
+        },
       ),
     );
   }
